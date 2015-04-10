@@ -17,7 +17,7 @@ module Fabricas
     _i = const_get(klass.capitalize).new
     attributes = items[klass].attributes.merge(values)
     attributes.each do |name, value|
-      _i.send("#{name}=", value)
+      _i.send("#{name}=", value.is_a?(Proc) ? value.call : value)
     end
     _i
   end
@@ -29,8 +29,8 @@ module Fabricas
       @attributes = {}
     end
 
-    def method_missing(method_name, *args)
-      attributes[method_name] = args.first
+    def method_missing(method_name, *args, &block)
+      attributes[method_name] = args.first || block
     end
   end
 end
