@@ -29,9 +29,10 @@ module Fabricas
 
   class FabricasMethods
     def factory(klass, &block)
-      @class_name = Module.const_get(klass.capitalize)
-      Fabricas.items[klass] = CleanRoom.new if block_given?
-      Fabricas.items[klass].instance_eval(&block)
+      if block_given?
+        Fabricas.items[klass] = CleanRoom.new 
+        Fabricas.items[klass].instance_eval(&block)
+      end
     end
   end
 end
