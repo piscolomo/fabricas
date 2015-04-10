@@ -3,7 +3,14 @@ module Fabricas
   def self.items; @items; end
 
   def self.define(&block)
-    FabricasMethods.new.instance_eval(&block)
+    module_eval(&block)
+  end
+
+  def self.factory(klass, &block)
+    if block_given?
+      Fabricas.items[klass] = CleanRoom.new 
+      Fabricas.items[klass].instance_eval(&block)
+    end
   end
 
   def self.build(klass, values = {})
@@ -24,15 +31,6 @@ module Fabricas
 
     def method_missing(method_name, *args)
       attributes[method_name] = args.first
-    end
-  end
-
-  class FabricasMethods
-    def factory(klass, &block)
-      if block_given?
-        Fabricas.items[klass] = CleanRoom.new 
-        Fabricas.items[klass].instance_eval(&block)
-      end
     end
   end
 end

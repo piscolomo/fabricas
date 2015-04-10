@@ -9,6 +9,12 @@ Fabricas.define do
     name "Julio"
     email "email@gmail.com"
   end
+
+  factory :pet do
+    name "Calvin"
+    age 1
+    color "white"
+  end
 end
 
 scope do
