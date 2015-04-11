@@ -30,9 +30,11 @@ puts other_user.inspect
 You can provide your own class name to your factories using the `class_name` key:
 
 ```ruby
-factory :admin, class_name: "User" do
-  name "Big Boss"
-  admin true
+Fabricas.define do
+  factory :admin, class_name: "User" do
+    name "Big Boss"
+    admin true
+  end
 end
 
 admin = Fabricas.build :admin
