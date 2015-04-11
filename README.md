@@ -5,7 +5,7 @@ Minimalist library for build factories.
 
 ## Introduction
 
-Fabricas is simple, just a few lines of code. Is framework agnostic, there are no monkey-patch to any class or object and is very useful when you need to build objects fast.
+Fabricas is simple, just a few lines of code. Is framework agnostic, with cero requires and monkey-patch helps you to build objects fast.
 
 ## Installation
 
