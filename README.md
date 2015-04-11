@@ -37,7 +37,7 @@ end
 
 admin = Fabricas.build :admin
 puts admin.inspect
-<User @name= "Big Boss", @admin= true>
+#=> <User @name= "Big Boss", @admin= true>
 ```
 
 
