@@ -47,15 +47,15 @@ You can provide your own class name to your factories using the `class_name` key
 
 ```ruby
 Fabricas.define do
-  factory :admin, class_name: "User" do
-    name "Big Boss"
-    admin true
+  factory :employee, class_name: "User" do
+    name "Dilbert"
+    area "Engineer"
   end
 end
 
-admin = Fabricas.build :admin
-puts admin.inspect
-#=> <User @name= "Big Boss", @admin= true>
+employee = Fabricas.build :employee
+puts employee.inspect
+#=> <User @name= "Dilbert", @area= "Engineer">
 ```
 
 ### Sending blocks as attributes
@@ -114,7 +114,7 @@ puts user.inspect
 ```
 
 ### Inheritance
-There is inheritance, your factory child can receive the same attributes and class_name of its parent.
+There is inheritance, your factory child can receive the same attributes and class name of its parent.
 
 ```ruby
 Fabricas.define do
