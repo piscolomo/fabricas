@@ -1,7 +1,7 @@
 require File.expand_path("../lib/fabricas", File.dirname(__FILE__))
 
 class User
-  attr_accessor :name, :email, :pet, :admin, :password
+  attr_accessor :name, :email, :pet, :admin, :password, :url
 
   def self.generate_password
     "5555"
@@ -15,7 +15,8 @@ end
 Fabricas.define do
   factory :user do
     name "Julio"
-    email "email@gmail.com"
+    url "workingawesome.com"
+    email { "#{name.downcase}@#{url}" }
     password { User.generate_password }
     pet { Fabricas.build :pet }
   end
@@ -37,13 +38,13 @@ scope do
   test "build user returns name and email" do
     user = Fabricas.build :user
     assert_equal user.name, "Julio"
-    assert_equal user.email, "email@gmail.com"
+    assert_equal user.url, "workingawesome.com"
   end
 
   test "build user with name returns the sent name" do
     user = Fabricas.build :user, name: "Pedro"
     assert_equal user.name, "Pedro"
-    assert_equal user.email, "email@gmail.com"
+    assert_equal user.url, "workingawesome.com"
   end
 
   test "multiple factories" do
@@ -68,5 +69,10 @@ scope do
     admin = Fabricas.build :admin
     assert_equal admin.name, "Big Boss"
     assert_equal admin.admin, true
+  end
+
+  test "dependent attribute" do
+    user = Fabricas.build :user
+    assert_equal user.email, "julio@workingawesome.com"
   end
 end

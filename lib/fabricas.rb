@@ -17,7 +17,7 @@ module Fabricas
     _i = const_get((factories[klass].class_name || klass).capitalize).new
     attributes = factories[klass].attributes.merge(values)
     attributes.each do |name, value|
-      _i.send("#{name}=", value.is_a?(Proc) ? value.call : value)
+      _i.send("#{name}=", value.is_a?(Proc) ? _i.instance_eval(&value) : value)
     end
     _i
   end

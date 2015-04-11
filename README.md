@@ -81,3 +81,20 @@ user = Fabricas.build :user
 puts user.pet.inspect
 #=> <Pet @name= "Firulais", @age= 12>
 ```
+
+### Dependent Attributes
+Attributes can be built using other attributes
+
+```ruby
+Fabricas.define do
+  factory :user do
+    name "Julio"
+    url "workingawesome.com"
+    email { "#{name.downcase}@#{url}" }
+  end
+end
+
+user = Fabricas.build :user
+puts user.inspect
+#=> <User @name= "Julio", @url="workingawesome.com" @email= "julio@workingawesome.com">
+```
