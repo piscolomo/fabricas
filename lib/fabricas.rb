@@ -1,24 +1,21 @@
 module Fabricas
-  @items = {}
-  def self.items; @items; end
+  @factories = {}
+  def self.factories; @factories; end
 
   def self.define(&block)
     module_eval(&block)
   end
 
   def self.factory(klass, args = {}, &block)
-    class_name = args.fetch(:class_name, nil)
     if block_given?
-      Fabricas.items[klass] = CleanRoom.new
-      Fabricas.items[klass].class_name = class_name.downcase.to_sym if class_name
-      Fabricas.items[klass].instance_eval(&block)
+      factories[klass] = CleanRoom.new args.fetch(:class_name, nil)
+      factories[klass].instance_eval(&block)
     end
   end
 
   def self.build(klass, values = {})
-    _k = items[klass].class_name ? items[klass].class_name : klass
-    _i = const_get(_k.capitalize).new
-    attributes = items[klass].attributes.merge(values)
+    _i = const_get((factories[klass].class_name || klass).capitalize).new
+    attributes = factories[klass].attributes.merge(values)
     attributes.each do |name, value|
       _i.send("#{name}=", value.is_a?(Proc) ? value.call : value)
     end
@@ -26,11 +23,11 @@ module Fabricas
   end
 
   class CleanRoom < BasicObject
-    attr_reader :attributes
-    attr_accessor :class_name
+    attr_reader :attributes, :class_name
 
-    def initialize
+    def initialize(class_name)
       @attributes = {}
+      @class_name = class_name.downcase.to_sym if class_name
     end
 
     def method_missing(method_name, *args, &block)
