@@ -29,14 +29,14 @@ module Fabricas
   def self.factory(klass, args = {}, &block)
     _o = args.fetch(:parent, nil)
     if block_given?
-      factories[klass] = CleanRoom.new args.fetch(:class_name, nil)
+      factories[klass] = CleanRoom.new(args.fetch(:class_name, nil) ||  (_o.class_name if _o) || klass)
       factories[klass].attributes = _o.attributes.clone if _o
       factories[klass].instance_eval(&block)
     end
   end
 
   def self.build(klass, values = {})
-    _i = const_get((factories[klass].class_name || klass).capitalize).new
+    _i = const_get(factories[klass].class_name.capitalize).new
     attributes = factories[klass].attributes.merge(values)
     attributes.each do |name, value|
       _i.send("#{name}=", value.is_a?(Proc) ? _i.instance_eval(&value) : value)
@@ -47,9 +47,9 @@ module Fabricas
   class CleanRoom < BasicObject
     attr_accessor :class_name, :attributes
 
-    def initialize(class_name)
+    def initialize(name)
       @attributes = {}
-      @class_name = class_name.downcase.to_sym if class_name
+      @class_name = name.is_a?(::String) ? name.downcase.to_sym : name
     end
 
     def method_missing(method_name, *args, &block)

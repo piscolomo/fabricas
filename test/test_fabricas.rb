@@ -12,6 +12,10 @@ class Pet
   attr_accessor :name, :age, :adopted
 end
 
+class Comment
+  attr_accessor :content, :sent
+end
+
 Fabricas.define do
   factory :user do
     name "Julio"
@@ -20,7 +24,7 @@ Fabricas.define do
     password { User.generate_password }
     pet { Fabricas.build :pet }
 
-    factory :super_admin, class_name: "User" do
+    factory :super_admin do
       access true
     end
   end
@@ -35,6 +39,14 @@ Fabricas.define do
     name "Calvin"
     age 1
     adopted true
+  end
+
+  factory :message, class_name: "Comment" do
+    content "Hei dude"
+
+    factory :message_sent do
+      sent true
+    end
   end
 end
 
@@ -85,5 +97,13 @@ scope do
     super_admin = Fabricas.build :super_admin
     assert_equal super_admin.name, "Julio"
     assert_equal super_admin.access, true
+  end
+
+  test "inheritance with class_name in parent" do
+    message = Fabricas.build :message
+    message_sent = Fabricas.build :message_sent
+    assert_equal message.content, "Hei dude"
+    assert_equal message_sent.content, "Hei dude"
+    assert_equal message_sent.sent, true
   end
 end

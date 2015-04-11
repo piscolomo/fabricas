@@ -110,5 +110,30 @@ end
 
 user = Fabricas.build :user
 puts user.inspect
-#=> <User @name= "Julio", @url="workingawesome.com" @email= "julio@workingawesome.com">
+#=> <User @name= "Julio", @url="workingawesome.com", @email= "julio@workingawesome.com">
+```
+
+### Inheritance
+There is inheritance, your factory child can receive the same attributes and class_name of its parent.
+
+```ruby
+Fabricas.define do
+  factory :user do
+    first_name "Julio"
+    email "email@gmail.com"
+
+    factory :admin do
+      access true
+    end
+  end
+end
+
+user = Fabricas.build :user
+admin = Fabricas.build :admin
+
+puts user.inspect
+#=> <User @name= "Julio", @email= "email@gmail.com">
+
+puts admin.inspect
+#=> <User @name= "Julio", @email= "email@gmail.com", @access= true>
 ```
