@@ -1,7 +1,11 @@
 require File.expand_path("../lib/fabricas", File.dirname(__FILE__))
 
 class User
-  attr_accessor :name, :email, :pet, :admin
+  attr_accessor :name, :email, :pet, :admin, :password
+
+  def self.generate_password
+    "5555"
+  end
 end
 
 class Pet
@@ -12,6 +16,7 @@ Fabricas.define do
   factory :user do
     name "Julio"
     email "email@gmail.com"
+    password { User.generate_password }
     pet { Fabricas.build :pet }
   end
 
@@ -48,10 +53,15 @@ scope do
     assert_equal pet.adopted, true
   end
 
-  test "factory objects by procs" do
+  test "factory object instances by proc" do
     user = Fabricas.build :user
     assert_equal user.pet.name, "Calvin"
     assert_equal user.pet.age, 1
+  end
+
+  test "factory run method in proc" do
+    user = Fabricas.build :user
+    assert_equal user.password, "5555"
   end
 
   test "using another class name" do

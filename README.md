@@ -1,7 +1,7 @@
 Fabricas
 ====
 
-Another minimalist library for build factories
+Minimalist library for build factories.
 
 Usage
 -----
@@ -43,7 +43,19 @@ puts admin.inspect
 ```
 
 
-Also you can use blocks in your `factory`, useful for send other instances
+Also you can use blocks in your `factory` to send whatever you want.
+
+```ruby
+Fabricas.define do
+  factory :user do
+    # ...
+    password { User.generate_password }
+    city { Faker::Address.city }
+  end
+end
+```
+
+You can take advantage of them for send other instances.
 
 ```ruby
 class Pet
@@ -52,8 +64,7 @@ end
 
 Fabricas.define do
   factory :user do
-    name "Julio"
-    email "email@gmail.com"
+    # ...
     pet { Fabricas.build :pet }
   end
 
