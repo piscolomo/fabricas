@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 module Fabricas
+  VERSION = "1.0.0"
   @factories = {}
   def self.factories; @factories; end
 
