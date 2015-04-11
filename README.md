@@ -27,6 +27,20 @@ puts other_user.inspect
 #=> <User @name= "Pedro", @email= "email@gmail.com">
 ```
 
+You can provide your own class name to your factories using the `class_name` key:
+
+```ruby
+factory :admin, class_name: "User" do
+  name "Big Boss"
+  admin true
+end
+
+admin = Fabricas.build :admin
+puts admin.inspect
+<User @name= "Big Boss", @admin= true>
+```
+
+
 Also you can use blocks in your `factory`, useful for send other instances
 
 ```ruby

@@ -1,7 +1,7 @@
 require File.expand_path("../lib/fabricas", File.dirname(__FILE__))
 
 class User
-  attr_accessor :name, :email, :pet
+  attr_accessor :name, :email, :pet, :admin
 end
 
 class Pet
@@ -13,6 +13,12 @@ Fabricas.define do
     name "Julio"
     email "email@gmail.com"
     pet { Fabricas.build :pet }
+  end
+
+  factory :admin, class_name: "User" do
+    name "Big Boss"
+    email "boss@gmail.com"
+    admin true
   end
 
   factory :pet do
@@ -46,5 +52,11 @@ scope do
     user = Fabricas.build :user
     assert_equal user.pet.name, "Calvin"
     assert_equal user.pet.age, 1
+  end
+
+  test "using another class name" do
+    admin = Fabricas.build :admin
+    assert_equal admin.name, "Big Boss"
+    assert_equal admin.admin, true
   end
 end
