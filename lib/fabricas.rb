@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 module Fabricas
-  VERSION = "1.1.0"
+  VERSION = "1.1.1"
   @factories = {}
   def self.factories; @factories; end
 
@@ -27,11 +27,11 @@ module Fabricas
   end
 
   def self.factory(klass, args = {}, &block)
-    _o = args.fetch(:parent, nil)
+    _p = args.fetch(:parent, nil)
     if block_given?
-      factories[klass] = CleanRoom.new(args.fetch(:class_name, nil) ||  (_o.class_name if _o) || klass)
-      factories[klass].attributes = _o.attributes.clone if _o
-      factories[klass].instance_eval(&block)
+      _f = factories[klass] = CleanRoom.new(args.fetch(:class_name, nil) ||  (_p.class_name if _p) || klass)
+      _f.attributes = _p.attributes.clone if _p
+      _f.instance_eval(&block)
     end
   end
 
