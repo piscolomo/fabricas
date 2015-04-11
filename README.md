@@ -3,6 +3,20 @@ Fabricas
 
 Minimalist library for build factories.
 
+## Introduction
+
+Fabricas is simple, just a few lines of code. Is framework agnostic, there are no monkey-patch to any class or object and is very useful when you need to build objects fast.
+
+## Installation
+
+Installing Fabricas is as simple as running:
+
+```
+$ gem install fabricas
+```
+
+Include Fabricas in your Gemfile with gem 'fabricas' or require it with require 'fabricas'.
+
 Usage
 -----
 
