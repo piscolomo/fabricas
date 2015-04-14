@@ -18,9 +18,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 module Fabricas
-  VERSION = "1.1.1"
+  VERSION = "1.1.2"
   @factories = {}
-  def self.factories; @factories; end
 
   def self.define(&block)
     module_eval(&block)
@@ -29,15 +28,15 @@ module Fabricas
   def self.factory(klass, args = {}, &block)
     _p = args.fetch(:parent, nil)
     if block_given?
-      _f = factories[klass] = CleanRoom.new(args.fetch(:class_name, nil) ||  (_p.class_name if _p) || klass)
+      _f = @factories[klass] = CleanRoom.new(args.fetch(:class_name, nil) ||  (_p.class_name if _p) || klass)
       _f.attributes = _p.attributes.clone if _p
       _f.instance_eval(&block)
     end
   end
 
   def self.build(klass, values = {})
-    _i = const_get(factories[klass].class_name.capitalize).new
-    attributes = factories[klass].attributes.merge(values)
+    _i = const_get(@factories[klass].class_name.capitalize).new
+    attributes = @factories[klass].attributes.merge(values)
     attributes.each do |name, value|
       _i.send("#{name}=", value.is_a?(Proc) ? _i.instance_eval(&value) : value)
     end
