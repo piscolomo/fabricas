@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.name              = "fabricas"
   s.version           = Fabricas::VERSION
   s.summary           = "Minimalist library for build factories."
-  s.description       = "Fabricas is simple, just a few lines of code. Is framework agnostic, there are no monkey-patch to any class or object and is very useful when you need to build objects fast."
+  s.description       = "Fabricas is simple; just a few lines of code. It's a framework agnostic library with zero requires and zero monkey-patching of any class or object. Very useful when you need to build objects fast."
   s.authors           = ["Julio Lopez"]
   s.email             = ["ljuliom@gmail.com"]
   s.homepage          = "http://github.com/TheBlasfem/fabricas"
