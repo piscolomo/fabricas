@@ -5,7 +5,7 @@ Minimalist library for build factories.
 
 ## Introduction
 
-Fabricas is simple, just a few lines of code. Is framework agnostic, with cero requires and monkey-patch helps you to build objects fast.
+Fabricas is simple; just a few lines of code. It's a framework agnostic library with zero requires and zero monkey-patching of any class or object. Very useful when you need to build objects fast.
 
 ## Installation
 
@@ -15,7 +15,7 @@ Installing Fabricas is as simple as running:
 $ gem install fabricas
 ```
 
-Include Fabricas in your Gemfile with gem 'fabricas' or require it with require 'fabricas'.
+Include Fabricas in your Gemfile with ```gem 'fabricas'``` or require it with ```require 'fabricas'```.
 
 Usage
 -----
@@ -72,7 +72,7 @@ Fabricas.define do
 end
 ```
 
-You can take advantage of them for send other instances.
+You can take advantage of them for sending other instances.
 
 ```ruby
 class Pet
@@ -114,7 +114,7 @@ puts user.inspect
 ```
 
 ### Inheritance
-There is inheritance, your factory child can receive the same attributes and class name of its parent.
+By using inheritance, your factory child can receive the same attributes and class name of its parent.
 
 ```ruby
 Fabricas.define do
