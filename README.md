@@ -1,7 +1,7 @@
 Fabricas
 ====
 
-Minimalist library for build factories.
+Minimalist library for build objects as test data. Inspired by [FactoryGirl](https://github.com/thoughtbot/factory_girl)
 
 ## Introduction
 
