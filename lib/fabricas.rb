@@ -28,14 +28,17 @@ module Fabricas
   def self.factory(klass, args = {}, &block)
     _p = args.fetch(:parent, nil)
     if block_given?
-      _f = @factories[klass] = CleanRoom.new(args.fetch(:class_name, nil) ||  (_p.class_name if _p) || klass)
+      _f = @factories[klass] =
+        CleanRoom.new(args.fetch(:class_name, nil) ||
+          (_p.class_name if _p) ||
+          klass.to_s.capitalize)
       _f.attributes = _p.attributes.clone if _p
       _f.instance_eval(&block)
     end
   end
 
   def self.build(klass, values = {})
-    _i = const_get(@factories[klass].class_name.capitalize).new
+    _i = ConstLoader.load(@factories[klass].class_name).new
     attributes = @factories[klass].attributes.merge(values)
     attributes.each do |name, value|
       _i.send("#{name}=", value.is_a?(Proc) ? _i.instance_eval(&value) : value)
@@ -48,7 +51,7 @@ module Fabricas
 
     def initialize(name)
       @attributes = {}
-      @class_name = name.is_a?(::String) ? name.downcase.to_sym : name
+      @class_name = name
     end
 
     def method_missing(method_name, *args, &block)
@@ -57,6 +60,15 @@ module Fabricas
 
     def factory(klass, args={}, &block)
       ::Fabricas.factory(klass, args.merge(parent: self), &block)
+    end
+  end
+
+  module ConstLoader
+    def self.load(const_name)
+      return const_name if const_name.is_a?(Class)
+      const_name.to_s.split('::').inject(Object) do |mod, const_part|
+        mod.const_get(const_part)
+      end
     end
   end
 end

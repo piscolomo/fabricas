@@ -16,6 +16,12 @@ class Comment
   attr_accessor :content, :sent
 end
 
+
+module Nested
+  class User
+    attr_accessor :name, :email, :pet, :admin, :password, :url, :access
+  end
+end
 Fabricas.define do
   factory :user do
     name "Julio"
@@ -30,6 +36,12 @@ Fabricas.define do
   end
 
   factory :admin, class_name: "User" do
+    name "Big Boss"
+    email "boss@gmail.com"
+    admin true
+  end
+
+  factory :nested_admin, class_name: "Nested::User" do
     name "Big Boss"
     email "boss@gmail.com"
     admin true
@@ -84,6 +96,12 @@ scope do
 
   test "using another class name" do
     admin = Fabricas.build :admin
+    assert_equal admin.name, "Big Boss"
+    assert_equal admin.admin, true
+  end
+
+  test "using another nested class name" do
+    admin = Fabricas.build :nested_admin
     assert_equal admin.name, "Big Boss"
     assert_equal admin.admin, true
   end
